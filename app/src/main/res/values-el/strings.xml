@@ -1,0 +1,9 @@
+<resources>
+    <string name="permission_alert_message">Δυστυχώς δεν μπορούμε να βρούμε μέρη για φαγητό κοντά στην τοποθεσία σου χωρίς την άδειά σου. Άνοιξε ξανά το ExplorEat και αποδέξου την άδεια ή ενεργοποίσε τη απο τις ρυθμίσεις σου.</string>
+    <string name="permission_alert_title">Απαιτείται άδεια</string>
+    <string name="permission_alert_btn_text">ΤΟ \'ΧΩ</string>
+    <string name="error_dialog_btn_text">OK</string>
+    <string name="default_error_message">Κάτι πήγε λάθος</string>
+    <string name="no_results_toast_message">Φαίνεται πώς δεν μπορέσαμε να βρούμε μέρη για φαγητό σε αυτήν την περιοχή. Δοκίμασε κάποια άλλη!</string>
+    <string name="meters">μέτρα</string>
+</resources>
