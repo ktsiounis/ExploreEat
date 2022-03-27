@@ -9,4 +9,7 @@
     <dimen name="generic_margin_small_vertical">@dimen/generic_margin_small</dimen>
     <dimen name="places_recycler_view_height">250dp</dimen>
     <dimen name="generic_margin_extra_small_vertical">@dimen/generic_margin_extra_small</dimen>
+    <dimen name="progress_bar_elevation">10dp</dimen>
+    <dimen name="toolbar_elevation">10dp</dimen>
+    <dimen name="marker_elevation">1dp</dimen>
 </resources>

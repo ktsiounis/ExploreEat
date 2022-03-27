@@ -64,6 +64,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
         viewModel.placesLiveData.observe(this) { result ->
             when (result) {
                 is Result.Success -> {
+                    binding.progressBar.visibility = View.GONE
                     result.data?.let {
                         if (it.isNotEmpty()) {
                             setPlacesRecyclerViewVisibility(true)
@@ -78,11 +79,12 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
                     }
                 }
                 is Result.Error -> {
+                    binding.progressBar.visibility = View.GONE
                     setPlacesRecyclerViewVisibility(false)
-                    showErrorDialog(result.message ?: getString(R.string.default_error_message))
+                    showErrorDialog(if (result.message.isNullOrEmpty()) getString(R.string.default_error_message) else result.message)
                 }
                 is Result.Loading -> {
-                    //show loading
+                    binding.progressBar.visibility = View.VISIBLE
                 }
             }
         }

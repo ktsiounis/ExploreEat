@@ -20,8 +20,9 @@ class MainActivityViewModel constructor(private val mainRepository: MainReposito
     fun searchForPlaces(location: LatLng) {
         val ll = location.latitude.toString() + "," + location.longitude.toString()
         job = CoroutineScope(Dispatchers.IO).launch {
+            placesLiveData.postValue(Result.Loading())
             val result = mainRepository.searchForPlaces(ll)
-            withContext(Dispatchers.IO) {
+            withContext(Dispatchers.Main) {
                 if (result.isSuccessful) {
                     val results = result.body()?.results?.map { it.toDomainModel() }
                     placesLiveData.postValue(Result.Success(data = results))
