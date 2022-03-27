@@ -7,4 +7,5 @@
     <string name="error_dialog_btn_text">OK</string>
     <string name="default_error_message">Something unexpected happened</string>
     <string name="no_results_toast_message">It seems that we could\'t find food places at this location. Try another one!</string>
+    <string name="meters">meters</string>
 </resources>

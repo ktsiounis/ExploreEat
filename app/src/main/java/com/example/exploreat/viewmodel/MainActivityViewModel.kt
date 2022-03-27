@@ -6,6 +6,7 @@ import com.example.exploreat.data.mapper.toDomainModel
 import com.example.exploreat.data.model.DomainPlaceModel
 import com.example.exploreat.data.model.Result
 import com.example.exploreat.repository.MainRepository
+import com.example.exploreat.view.ViewMode
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.*
 
@@ -13,6 +14,7 @@ import kotlinx.coroutines.*
 class MainActivityViewModel constructor(private val mainRepository: MainRepository): ViewModel() {
 
     val placesLiveData = MutableLiveData<Result<List<DomainPlaceModel>>>()
+    val viewModeLiveData = MutableLiveData<ViewMode<Any>>()
     var job: Job? = null
 
     fun searchForPlaces(location: LatLng) {
@@ -28,6 +30,10 @@ class MainActivityViewModel constructor(private val mainRepository: MainReposito
                 }
             }
         }
+    }
+
+    fun setViewMode(viewMode: ViewMode<Any>) {
+        viewModeLiveData.postValue(viewMode)
     }
 
     override fun onCleared() {

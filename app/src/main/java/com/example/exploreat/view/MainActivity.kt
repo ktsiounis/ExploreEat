@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
+import android.view.animation.AnimationUtils
 import android.widget.Toast
 import android.widget.Toast.LENGTH_LONG
 import androidx.appcompat.app.AppCompatActivity
@@ -30,6 +31,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 
@@ -40,6 +42,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
     private lateinit var viewModel: MainActivityViewModel
     private val fusedLocationClient: FusedLocationProviderClient by lazy { LocationServices.getFusedLocationProviderClient(this) }
     private val placesRVAdapter: PlacesRVAdapter by lazy { PlacesRVAdapter(arrayListOf(), this) }
+    private var viewMode: ViewMode<Any> = ViewMode.ExplorationMode()
+    private var latestLocation: LatLng? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,9 +52,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
         setContentView(binding.root)
 
         initViewModel()
-
         initViews()
-
     }
 
     private fun initViewModel() {
@@ -84,13 +86,20 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
                 }
             }
         }
-    }
 
-    private fun showNoResultsToast() = Toast.makeText(
-        this,
-        getString(R.string.no_results_toast_message),
-        LENGTH_LONG
-    ).show()
+        viewModel.viewModeLiveData.observe(this) { mode ->
+            viewMode = mode
+            when(mode) {
+                is ViewMode.ExplorationMode -> {
+                    setupExplorationMode()
+                }
+                is ViewMode.NavigationMode -> {
+                    setupNavigationMode(mode.data as? DomainPlaceModel)
+                }
+            }
+        }
+
+    }
 
     private fun initViews() {
         val mapFragment = supportFragmentManager
@@ -105,6 +114,54 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
         }
     }
 
+    private fun setupExplorationMode() {
+        mMap.apply {
+            clear()
+            latestLocation?.let {
+                moveCamera(CameraUpdateFactory.newLatLngZoom(it, 17f))
+            }
+            setOnCameraIdleListener(this@MainActivity)
+        }
+        hidePlaceSelectedView()
+        binding.userMarkerImageView.visibility = View.VISIBLE
+    }
+
+    private fun setupNavigationMode(place: DomainPlaceModel?) {
+        place?.let { _place ->
+            showPlaceSelectedView(_place)
+            binding.userMarkerImageView.visibility = View.GONE
+            placesRVAdapter.removeItem(_place)
+            mMap.apply {
+                val latLng = LatLng(_place.lat, _place.lng)
+                moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17f))
+                addMarker(MarkerOptions().also { it.position(latLng) })
+                setOnCameraIdleListener(null)
+            }
+        }
+    }
+
+    private fun showPlaceSelectedView(place: DomainPlaceModel) {
+        binding.apply {
+            selectedPlaceView.apply {
+                distanceTextView.text = place.distance.toString()
+                placeTitleTextView.text = place.name
+                placeAddressTextView.text = place.address
+                placeKindTextView.text = place.type
+                root.visibility = View.VISIBLE
+                root.startAnimation(AnimationUtils.loadAnimation(this@MainActivity, R.anim.view_slide_down))
+            }
+        }
+    }
+
+    private fun hidePlaceSelectedView() {
+        binding.apply {
+            selectedPlaceView.root.apply {
+                startAnimation(AnimationUtils.loadAnimation(this@MainActivity, R.anim.view_slide_up))
+                visibility = View.GONE
+            }
+        }
+    }
+
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
         getLastKnownLocation()
@@ -113,6 +170,11 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
     override fun onCameraIdle() {
         val midLatLng = mMap.cameraPosition.target
         viewModel.searchForPlaces(midLatLng)
+        latestLocation = midLatLng
+    }
+
+    override fun onPlaceClicked(place: DomainPlaceModel) {
+        viewModel.setViewMode(ViewMode.NavigationMode(place))
     }
 
     @SuppressLint("MissingPermission")
@@ -179,12 +241,22 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
             .show()
     }
 
-    override fun onPlaceClicked(place: DomainPlaceModel) {
-        TODO("Not yet implemented")
-    }
+    private fun showNoResultsToast() = Toast.makeText(
+        this,
+        getString(R.string.no_results_toast_message),
+        LENGTH_LONG
+    ).show()
 
     private fun setPlacesRecyclerViewVisibility(visible: Boolean) {
         binding.placesRecyclerView.visibility = if (visible) View.VISIBLE else View.GONE
+    }
+
+    override fun onBackPressed() {
+        if (viewMode is ViewMode.NavigationMode) {
+            viewModel.setViewMode(ViewMode.ExplorationMode())
+        } else {
+            super.onBackPressed()
+        }
     }
 
 }

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/place_selected_container_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/place_image_view"
+            android:layout_width="72dp"
+            android:layout_height="0dp"
+            android:background="@color/darkGrey"
+            android:importantForAccessibility="no"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/googleg_standard_color_18" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/distance_container_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/secondaryDarkWithOpacity"
+            app:layout_constraintBottom_toBottomOf="@id/place_image_view"
+            app:layout_constraintEnd_toEndOf="@id/place_image_view"
+            app:layout_constraintStart_toStartOf="@id/place_image_view"
+            app:layout_constraintTop_toTopOf="@id/place_image_view">
+
+            <TextView
+                android:id="@+id/distance_text_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintBottom_toTopOf="@+id/distance_meters_text_view"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:text="800" />
+
+            <TextView
+                android:id="@+id/distance_meters_text_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@string/meters"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/distance_text_view" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/place_title_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/generic_margin_horizontal"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/generic_margin_small_vertical"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintBottom_toTopOf="@+id/place_kind_text_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/place_image_view"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="Sushimou" />
+
+        <TextView
+            android:id="@+id/place_kind_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/generic_margin_horizontal"
+            android:textColor="@color/secondaryDardGrey"
+            android:textStyle="bold"
+            android:layout_marginVertical="@dimen/generic_margin_extra_small_vertical"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintBottom_toTopOf="@+id/place_address_text_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/place_image_view"
+            app:layout_constraintTop_toBottomOf="@+id/place_title_text_view"
+            tools:text="Sushi" />
+
+        <TextView
+            android:id="@+id/place_address_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/generic_margin_horizontal"
+            android:textColor="@color/lightGrey"
+            android:textSize="12sp"
+            android:layout_marginBottom="@dimen/generic_margin_small_vertical"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/place_image_view"
+            app:layout_constraintTop_toBottomOf="@+id/place_kind_text_view"
+            tools:text="Skoufou 20" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

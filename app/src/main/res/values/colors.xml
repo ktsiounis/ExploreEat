@@ -13,4 +13,5 @@
     <color name="lightGrey">#9F9F9F</color>
     <color name="darkGrey">#57818181</color>
     <color name="secondaryDardGrey">#706E6E</color>
+    <color name="secondaryDarkWithOpacity">#C6B0003A</color>
 </resources>

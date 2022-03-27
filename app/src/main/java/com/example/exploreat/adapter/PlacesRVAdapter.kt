@@ -12,8 +12,8 @@ import com.example.exploreat.data.model.DomainPlaceModel
 import com.squareup.picasso.Picasso
 
 
-class PlacesRVAdapter(var places: ArrayList<DomainPlaceModel>,
-                      val listener: PlaceClickListener):
+class PlacesRVAdapter(private val places: ArrayList<DomainPlaceModel>,
+                      private val listener: PlaceClickListener):
     RecyclerView.Adapter<PlacesRVAdapter.PlaceHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlaceHolder {
@@ -38,6 +38,12 @@ class PlacesRVAdapter(var places: ArrayList<DomainPlaceModel>,
         places.clear()
         places.addAll(newItems)
         notifyDataSetChanged()
+    }
+
+    fun removeItem(item: DomainPlaceModel) {
+        val itemPosition = places.indexOf(item)
+        places.remove(item)
+        notifyItemRemoved(itemPosition)
     }
 
     class PlaceHolder(v: View): RecyclerView.ViewHolder(v) {
