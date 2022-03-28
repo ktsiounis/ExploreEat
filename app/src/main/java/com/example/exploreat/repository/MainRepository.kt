@@ -1,11 +1,11 @@
 package com.example.exploreat.repository
 
-import com.example.exploreat.network.PlacesAPI
+import com.example.exploreat.data.model.ApiPlacePhoto
+import com.example.exploreat.data.model.ApiPlacesResponse
+import retrofit2.Response
 
 
-class MainRepository constructor(private val service: PlacesAPI) {
-
-    suspend fun searchForPlaces(ll: String) = service.searchForPlaces(ll = ll)
-    suspend fun getPhotosForPlace(id: String) = service.getPhotosForPlace(id = id)
-
+interface MainRepository {
+    suspend fun searchForPlaces(ll: String): Response<ApiPlacesResponse>
+    suspend fun getPhotosForPlace(id: String): Response<List<ApiPlacePhoto>>
 }

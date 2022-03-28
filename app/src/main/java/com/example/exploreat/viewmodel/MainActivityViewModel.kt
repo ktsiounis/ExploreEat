@@ -7,6 +7,7 @@ import com.example.exploreat.data.mapper.toDomainModelWithPhoto
 import com.example.exploreat.data.model.DomainPlaceModel
 import com.example.exploreat.data.model.Result
 import com.example.exploreat.repository.MainRepository
+import com.example.exploreat.repository.MainRepositoryImpl
 import com.example.exploreat.view.ViewMode
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.*
@@ -23,7 +24,6 @@ class MainActivityViewModel constructor(private val mainRepository: MainReposito
         job = CoroutineScope(Dispatchers.IO).launch {
             placesLiveData.postValue(Result.Loading())
             val placesSearchResult = mainRepository.searchForPlaces(ll)
-            withContext(Dispatchers.Main) {
                 if (placesSearchResult.isSuccessful) {
                     val places = placesSearchResult
                         .body()
@@ -43,7 +43,6 @@ class MainActivityViewModel constructor(private val mainRepository: MainReposito
                 } else {
                     placesLiveData.postValue(Result.Error(message = placesSearchResult.message()))
                 }
-            }
         }
     }
 

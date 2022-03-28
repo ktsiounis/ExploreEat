@@ -19,7 +19,7 @@ import com.example.exploreat.data.model.DomainPlaceModel
 import com.example.exploreat.data.model.Result
 import com.example.exploreat.databinding.ActivityMainBinding
 import com.example.exploreat.network.APIClient
-import com.example.exploreat.repository.MainRepository
+import com.example.exploreat.repository.MainRepositoryImpl
 import com.example.exploreat.utils.Constants
 import com.example.exploreat.utils.Utils
 import com.example.exploreat.viewmodel.MainActivityViewModel
@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnCamera
 
     private fun initViewModel() {
         val service = APIClient.getClientInstance()
-        val mainRepository = MainRepository(service = service)
+        val mainRepository = MainRepositoryImpl(service = service)
 
         viewModel = ViewModelProvider(this, MainActivityViewModelFactory(mainRepository)).get(MainActivityViewModel::class.java)
 
