@@ -6,7 +6,7 @@
 - [Testing](#testing)
 
 ## Introduction
-This is a tech assignment for Senior Android Engineer position at BEAT. ExplorEat is a simple app that holds a map where the user can move the map and when the move is stopped, an API call to [Foursquare Places API](https://developer.foursquare.com/reference/place-search) to fetch all the food places near to user's location. This app developed using MVVM architecture, with Coroutines and LiveData. The [Foursquare Places Photos API](https://developer.foursquare.com/reference/place-photos) is also used to fetch images for the places.
+ExplorEat is a simple app that holds a map where the user can move the map and when the move is stopped, an API call to [Foursquare Places API](https://developer.foursquare.com/reference/place-search) to fetch all the food places near to user's location. This app developed using MVVM architecture, with Coroutines and LiveData. The [Foursquare Places Photos API](https://developer.foursquare.com/reference/place-photos) is also used to fetch images for the places.
 
 ## Features
 The app consists of two modes:
